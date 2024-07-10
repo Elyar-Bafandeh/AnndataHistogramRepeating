@@ -1,5 +1,5 @@
 import pandas as pd
-def findRepeats(fileDir):
+def createRepeatsList(fileDir):
     df = pd.read_csv(fileDir, sep='\t', header=None)
     grouped = df.groupby(3)
     repeatsList = list(grouped.size())
@@ -10,5 +10,13 @@ def createRepeatsDict(repeatsList):
     for repeats in repeats_dict.keys():
         repeats_dict[repeats] = repeatsList.count(repeats)
     return repeats_dict
+
+def findRepeats(filedir):
+    return createRepeatsDict(createRepeatsList(filedir))
+
+def createRepeatsBed(repeatsDict , outputDir):
+    with open(outputDir , "w") as file:
+        for repeat,repeatCount in repeatsDict.items():
+            file.write(f"{repeat}\t{repeatCount}\n")
 
     
